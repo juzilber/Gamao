@@ -64,7 +64,7 @@
 
 	   if (pTabuleiro != NULL)
 	   {
-		   //TAB_DestruirTabuleiro();
+		   TAB_DestruirTabuleiro();
 
 	   } /* if */
 
