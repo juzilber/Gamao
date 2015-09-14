@@ -19,6 +19,7 @@
 
 #include <malloc.h>
 #include <stdio.h>
+#include <string.h>
 
 /***********************************************************************
 *
@@ -27,9 +28,9 @@
 *
 ***********************************************************************/
 
-typedef struct TAB_tagTabuleiro {
+typedef struct PEC_tagPeca {
 
-	   char *cor;
+	   char cor[10];
 
    } PEC_tpPeca;
 /***************************************************************************
@@ -38,22 +39,58 @@ typedef struct TAB_tagTabuleiro {
 *
 ******/
 
-   PEC_tpCondRet PEC_CriarPeca( char *cor, PEC_tpPeca **pPeca ){
+   PEC_tpCondRet PEC_CriarPeca( char cor[], tpPeca **pPeca ){;
 
-	   int indice;
-	   PEC_tpCondRet CondRet;
-
-	   if (pPeca != NULL)
+	   if ((*pPeca) != NULL)
 	   {
-		   PEC_DestruirPeca();
+		   PEC_DestruirPeca(pPeca);
 
 	   } /* if */
 
-	   pPeca = (PEC_tpPeca **)malloc(sizeof(pPeca));
-	   if (pPeca == NULL)
+	   *pPeca = (tpPeca *)malloc(sizeof(tpPeca));
+	   if (*pPeca == NULL)
 		   return PEC_CondRetFaltouMemoria;
-
+	  
+	   strcpy(cor, (*pPeca)->cor);
 	   
 	   return PEC_CondRetOK;
 
    } /* Fim função: PEC  &Criar peca */
+
+
+   /***************************************************************************
+*
+*  Função: PEC  &Destruir Peca
+*
+******/
+
+   PEC_tpCondRet PEC_DestruirPeca(tpPeca **pPeca)
+   {
+   
+	   if (*pPeca == NULL)
+		   return PEC_CondRetPecaNaoExiste;
+
+	   free(*pPeca);
+
+	   return PEC_CondRetOK;
+   
+   } /* Fim funçao: PEC destruir peca*/
+
+
+/***************************************************************************
+*
+*  Função: PEC  &Obter cor Peca
+*
+******/ 
+
+   PEC_tpCondRet PEC_ObterCor(tpPeca **pPeca, char cor[])
+   {
+	
+	   if (*pPeca == NULL)
+		   return PEC_CondRetPecaNaoExiste;
+
+	   strcpy((*pPeca)->cor, cor);
+	   
+   } /* Fim funçao: PEC obter peca*/
+
+/********** Fim do módulo de implementação: Módulo peca **********/

@@ -19,7 +19,7 @@
 *  $ED Descrição do módulo
 *     Implementa um tabuleiro de gamao.
 *     O tabuleiro é estatico no modulo, só pode existir um tabuleiro
-*     O tabuleiro possue uma cabeça encapsulando o seu estado.
+*     O tabuleiro possui uma cabeça encapsulando o seu estado.
 *
 *
 ***************************************************************************/
