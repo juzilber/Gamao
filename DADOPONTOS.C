@@ -12,6 +12,8 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	   2.00    lsm  13/09/2015  revisao e comentarios
+*	   1.00    jdz  12/09/2015  inicio de implementacao
 *
 ***************************************************************************/
 #define DADOPONTOS_OWN
@@ -55,7 +57,7 @@
 	   if (pDadoPontos != NULL)
 		   DAP_DestruirDadoPontos();
 
-	   pDadoPontos = (tpDadoPontos*)malloc(sizeof(tpDadoPontos));
+	   pDadoPontos = (DAP_tpDadoPontos*)malloc(sizeof(DAP_tpDadoPontos));
 	   if (pDadoPontos == NULL)
 		   return DAP_CondRetFaltouMemoria;
 
@@ -128,4 +130,4 @@
    } /* Fim função: DAP  &Obter potuacao */
 
 
-   /********** Fim do módulo de implementação: Módulo dado pontos **********/
+   /********** Fim do módulo de implementação: DAP  DadoPontos **********/

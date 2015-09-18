@@ -12,6 +12,9 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	   3.00    lsm   14/09/2015  checagem final
+*      2.00    lsm   12/09/2015  adicao de mais funcoes
+*      1.00    ea    11/09/2015  inicio do desenvolvimento
 *
 ***************************************************************************/
 #define TABULEIRO_OWN
@@ -41,7 +44,7 @@
 
 /*****  Dados encapsulados no módulo  *****/
 
-   static tpTabuleiro * pTabuleiro = NULL;
+   static TAB_tpTabuleiro * pTabuleiro = NULL;
       /* Ponteiro para a cabeca do tabuleiro */
 
 
@@ -68,7 +71,7 @@
 
 	   } /* if */
 
-	   pTabuleiro = (tpTabuleiro *)malloc(sizeof(tpTabuleiro));
+	   pTabuleiro = (TAB_tpTabuleiro *)malloc(sizeof(TAB_tpTabuleiro));
 	   if (pTabuleiro == NULL)
 		   return TAB_CondRetFaltouMemoria;
 
@@ -104,7 +107,6 @@
    TAB_tpCondRet TAB_DestruirTabuleiro( void ){
 
 	   int indice;
-	   LIS_tpCondRet CondRet;
 
 	   if (pTabuleiro == NULL)
 		   return TAB_CondRetTabuleiroNaoExiste;
@@ -115,22 +117,14 @@
 
 		   pTabuleiro->pCasaCorr = (LIS_tppLista)LIS_ObterValor(pTabuleiro->pBaseTabuleiro);
 		   
-		   if (pTabuleiro->pCasaCorr == NULL)
-			   return TAB_CondRetErroNaEstrutura;
 
 		   LIS_DestruirLista(pTabuleiro->pCasaCorr);
 
-		   CondRet = LIS_AvancarElementoCorrente(pTabuleiro->pBaseTabuleiro, 1);
-
-		   if (CondRet != LIS_CondRetOK)
-			   return TAB_CondRetErroNaEstrutura;
+		   LIS_AvancarElementoCorrente(pTabuleiro->pBaseTabuleiro, 1);
 
 	   } /* for */
 
 	   pTabuleiro->pCasaCorr = (LIS_tppLista)LIS_ObterValor(pTabuleiro->pBaseTabuleiro);
-
-	   if (pTabuleiro->pCasaCorr == NULL)
-		   return TAB_CondRetErroNaEstrutura;
 
 	   LIS_DestruirLista(pTabuleiro->pCasaCorr);
    
@@ -159,15 +153,9 @@
 		   return TAB_CondRetCasaNaoExiste;
 
 	   IrInicioLista(pTabuleiro->pBaseTabuleiro);
-	   CondRet = LIS_AvancarElementoCorrente(pTabuleiro->pBaseTabuleiro, Casa - 1);
-
-	   if (CondRet != LIS_CondRetOK)
-		   return TAB_CondRetErroNaEstrutura;
+	   LIS_AvancarElementoCorrente(pTabuleiro->pBaseTabuleiro, Casa - 1);
 
 	   pTabuleiro->pCasaCorr = (LIS_tppLista)LIS_ObterValor(pTabuleiro->pBaseTabuleiro);
-
-	   if (pTabuleiro->pCasaCorr == NULL)
-		   return TAB_CondRetErroNaEstrutura;
 
 	   CondRet = LIS_InserirElementoApos(pTabuleiro->pCasaCorr, pPeca);
 
@@ -186,8 +174,6 @@
    
    TAB_tpCondRet TAB_RetirarPeca(void **pPeca, int Casa){
 
-	   LIS_tpCondRet CondRet;
-
 	   if (pTabuleiro == NULL)
 		   return TAB_CondRetTabuleiroNaoExiste;
 
@@ -195,15 +181,9 @@
 		   return TAB_CondRetCasaNaoExiste;
 
 	   IrInicioLista(pTabuleiro->pBaseTabuleiro);
-	   CondRet = LIS_AvancarElementoCorrente(pTabuleiro->pBaseTabuleiro, Casa - 1);
-
-	   if (CondRet != LIS_CondRetOK)
-		   return TAB_CondRetErroNaEstrutura;
+	   LIS_AvancarElementoCorrente(pTabuleiro->pBaseTabuleiro, Casa - 1);
 
 	   pTabuleiro->pCasaCorr = (LIS_tppLista)LIS_ObterValor(pTabuleiro->pBaseTabuleiro);
-
-	   if (pTabuleiro->pCasaCorr == NULL)
-		   return TAB_CondRetErroNaEstrutura;
 
 	   IrFinalLista(pTabuleiro->pCasaCorr);
 
@@ -212,10 +192,7 @@
 	   if (*pPeca == NULL)
 		   return TAB_CondRetCasaVazia;
 
-	   CondRet = LIS_ExcluirElemento(pTabuleiro->pCasaCorr);
-
-	   if (CondRet != LIS_CondRetOK)
-		   return TAB_CondRetErroNaEstrutura;
+	   LIS_ExcluirElemento(pTabuleiro->pCasaCorr);
 
 	   return TAB_CondRetOK;
 
@@ -264,13 +241,7 @@
 	   IrInicioLista(pTabuleiro->pBaseTabuleiro);
 	   CondRet = LIS_AvancarElementoCorrente(pTabuleiro->pBaseTabuleiro, Casa - 1);
 
-	   if (CondRet != LIS_CondRetOK)
-		   return TAB_CondRetErroNaEstrutura;
-
 	   pTabuleiro->pCasaCorr = (LIS_tppLista)LIS_ObterValor(pTabuleiro->pBaseTabuleiro);
-
-	   if (pTabuleiro->pCasaCorr == NULL)
-		   return TAB_CondRetErroNaEstrutura;
 
 	   IrInicioLista(pTabuleiro->pCasaCorr);
 
@@ -286,7 +257,7 @@
 		   *Quantidade = 0;
 		   return TAB_CondRetCasaVazia;
 
-	   }
+	   } /* if */
 
 	   return TAB_CondRetOK;
    }
@@ -320,3 +291,6 @@
 	   pValor = NULL;
 
    } /* Fim função: TAB - Destruir base */
+
+
+   /********** Fim do módulo de implementação: TAB  Tabuleiro **********/

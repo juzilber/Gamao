@@ -15,6 +15,8 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	   2.00    lsm  13/09/2015  revisao e comentarios
+*	   1.00    jdz  12/09/2015  inicio de implementacao
 *
 *  $ED Descrição do módulo
 *     Implementa a struct que cuida da pontuaçao do jogo.
@@ -29,7 +31,6 @@
 #define DADOPONTOS_EXT extern
 #endif
 
-typedef struct DAP_tagDadoPontos tpDadoPontos;
 
 /***********************************************************************
 *

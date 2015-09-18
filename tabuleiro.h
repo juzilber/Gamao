@@ -15,11 +15,14 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	   3.00    lsm   14/09/2015  checagem final
+*      2.00    lsm   12/09/2015  adicao de mais definicoes
+*      1.00    ea    11/09/2015  inicio do desenvolvimento
 *
 *  $ED Descrição do módulo
 *     Implementa um tabuleiro de gamao.
 *     O tabuleiro é estatico no modulo, só pode existir um tabuleiro
-*     O tabuleiro possui uma cabeça encapsulando o seu estado.
+*     O tabuleiro possue uma cabeça encapsulando o seu estado.
 *
 *
 ***************************************************************************/
@@ -33,7 +36,6 @@
 
 #include "LISTA.H"
 
-typedef struct TAB_tagTabuleiro tpTabuleiro;
 
 /***********************************************************************
 *
