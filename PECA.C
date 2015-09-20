@@ -10,8 +10,8 @@
 *  Autores: jdz - Juliana Dana Zilberberg
 *
 *  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*
+*     Versão  Autor    Data        Observações
+*      1.0    jdz    14/09/2015   inicio de implementacao
 ***************************************************************************/
 #define PECA_OWN
 #include "PECA.H"
