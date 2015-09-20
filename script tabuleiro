@@ -1,0 +1,46 @@
+# Gamao
+// Script:    TesteTab.script
+// Autor:     Eduardo Abramoff
+// Data:      19/09/2015
+// Propósito: Testar completamente o módulo tabuleiro do jogo de gamão
+//
+
+
+
+==Criar tabuleiro
+=criartabuleiro 0
+
+==Destruir tabuleiro
+=destruirtabuleiro 0
+
+==Testando se foi devidamente destruido
+=destruirtabuleiro 3
+
+==Testando funções antes de criar o tabuleiro
+=inserirpeca 4 6 3
+=moverpeca 3 5 3
+=retirarpeca 5 4 3
+=quantidadepeca 3 4 3
+
+==Testar funções de inserção
+=criartabuleiro 0
+=inserirpeca 5 1 0
+=inserirpeca 3 24 0
+=inserirpeca 2 24 0
+=inserirpeca 7 0 5
+
+==Testar funções de movimento
+=moverpeca 1 4 0
+=moverpeca 2 6 1
+=moverpeca 33 5 5
+
+==Testar retiradas de peças
+=retirarpeca 5 4 0
+=retirarpeca 4 22 1
+=retirarpeca 2 77 5
+
+==Calcular a quantidade de pecas
+=quantidadepeca 24 2 0
+=quantidadepeca 3 0 1
+=quantidadepeca 69 2 5
+
