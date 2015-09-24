@@ -31,6 +31,7 @@
 #define DADOPONTOS_EXT extern
 #endif
 
+typedef struct DAP_tagDadoPontos DAP_tpDadoPontos;
 
 /***********************************************************************
 *
@@ -69,21 +70,27 @@
 *  $ED Descrição da função
 *     Cria um estrutura de dadoPontos para o gamao.
 *
+*  $EP Parâmetros
+*     pDadoPontos - dado para criar
+*
 *  $FV Valor retornado
 *     DAP_CondRetOK - Se executou corretamente a criaçao do dadoPontos
 *	  DAP_CondRetFaltouMemoria - Se houve algum problema de memoria ao criar
 *
 ***********************************************************************/
 
-   DAP_tpCondRet DAP_CriarDadoPontos(void);
+   DAP_tpCondRet DAP_CriarDadoPontos( DAP_tpDadoPontos **pDadoPontos );
 
 
 /***********************************************************************
 *
-*  $FC Função: TAB  &Destruir dadoPontos
+*  $FC Função: DAP  &Destruir dadoPontos
 *
 *  $ED Descrição da função
 *     Destroi a estrutura de dadosPontos
+*
+*  $EP Parâmetros
+*     pDadoPontos - dado para destruir
 *
 *  $FV Valor retornado
 *     DAP_CondRetOK - Se executou corretamente e destruiu o dadoPontos
@@ -91,17 +98,18 @@
 *
 ***********************************************************************/
 
-   DAP_tpCondRet DAP_DestruirDadoPontos(void);
+   DAP_tpCondRet DAP_DestruirDadoPontos( DAP_tpDadoPontos **pDadoPontos );
 
 
 /***********************************************************************
 *
-*  $FC Função: TAB  &Dobrar pontuacao
+*  $FC Função: DAP  &Dobrar pontuacao
 *
 *  $ED Descrição da função
 *     dobra a pontuacao da partida
 *
 *  $EP Parâmetros
+*     pDadoPontos - dado para dobrar
 *     jogador - jogador que deseja dobrar a partida
 *
 *  $FV Valor retornado
@@ -112,26 +120,47 @@
 *
 ***********************************************************************/
 
-   DAP_tpCondRet DAP_DobrarPontuacao(int jogador);
+   DAP_tpCondRet DAP_DobrarPontuacao( DAP_tpDadoPontos **pDadoPontos, int jogador);
 
 
 /***********************************************************************
 *
-*  $FC Função: TAB  &Obter pontuacao
+*  $FC Função: DAP  &Obter pontuacao
 *
 *  $ED Descrição da função
-*     dobra a pontuacao da partida
+*     retorna a pontuacao da partida
 *
 *  $EP Parâmetros
+*	  pDadoPontos - dado para obter a pontuacao
 *     pontuacao - ponteiro para passar a pontuacao atual
 *
 *  $FV Valor retornado
-*    DAP_CondRetOK - Se executou corretamente e dobrou a partida
+*    DAP_CondRetOK - Se executou corretamente
 *	 DAP_CondRetDadoPontosNaoExiste - Se nao foi criado
 *
 ***********************************************************************/
 
-   DAP_tpCondRet DAP_ObterPontuacao(int *Pontuacao);
+   DAP_tpCondRet DAP_ObterPontuacao( DAP_tpDadoPontos *pDadoPontos, int *Pontuacao);
+
+
+/***********************************************************************
+*
+*  $FC Função: DAP  &Obter ultima dobra
+*
+*  $ED Descrição da função
+*     retorna o jogador que dobrou pela ultima vez
+*
+*  $EP Parâmetros
+*	  pDadoPontos - dado para obter o jogador
+*     jogador - ponteiro para passar o jogador atual
+*
+*  $FV Valor retornado
+*    DAP_CondRetOK - Se executou corretamente
+*	 DAP_CondRetDadoPontosNaoExiste - Se nao foi criado
+*
+***********************************************************************/
+
+   DAP_tpCondRet DAP_ObterUltimaDobra(DAP_tpDadoPontos *pDadoPontos, int *jogador);
 
 
 

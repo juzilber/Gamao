@@ -36,6 +36,11 @@
 
 #include "LISTA.H"
 
+/***** Declarações exportadas pelo módulo *****/
+
+/* Tipo referência para uma lista */
+
+typedef struct TAB_tagTabuleiro TAB_tpTabuleiro;
 
 /***********************************************************************
 *
@@ -80,13 +85,16 @@
 *     Cria uma tabuleiro de gamao, com 24 casas. 
 *	  Ele pode armazenar peças de qualquer tipo
 *
+*  $EP Parâmetros
+*     pTabuleiro - tabuleiro para criar
+*
 *  $FV Valor retornado
 *     TAB_CondRetOK - Se executou corretamente a criaçao do tabuleiro
 *	  TAB_CondRetFaltouMemoria - Se houve algum problema de memoria ao criar
 *
 ***********************************************************************/
 
-   TAB_tpCondRet TAB_CriarTabuleiro( void );
+   TAB_tpCondRet TAB_CriarTabuleiro( TAB_tpTabuleiro **pTabuleiro );
 
 
 /***********************************************************************
@@ -96,6 +104,9 @@
 *  $ED Descrição da função
 *     Destrói o tabuleiro criado.
 *
+*  $EP Parâmetros
+*     pTabuleiro - tabuleiro para destruir
+*
 *  $FV Valor retornado
 *     TAB_CondRetOK    - destruiu sem problemas
 *     TAB_CondRetErroNaEstrutura - estrutura do tabuleiro esta errada
@@ -103,7 +114,7 @@
 *
 ***********************************************************************/
 
-   TAB_tpCondRet TAB_DestruirTabuleiro( void );
+   TAB_tpCondRet TAB_DestruirTabuleiro( TAB_tpTabuleiro **pTabuleiro );
 
 
 /***********************************************************************
@@ -114,6 +125,7 @@
 *     insere uma peca na casa do tabuleiro passada como parametro 
 *
 *  $EP Parâmetros
+*     pTabuleiro - tabuleiro para inserir a peca
 *     pPeca   - ponteiro para a peca a ser inserida
 *     Casa    - casa onde a peca sera inserida
 *
@@ -126,7 +138,7 @@
 *
 ***********************************************************************/
 
-   TAB_tpCondRet TAB_InserirPeca(void *pPeca, int Casa);
+   TAB_tpCondRet TAB_InserirPeca( TAB_tpTabuleiro **pTabuleiro, void *pPeca, int Casa);
 
 
 /***********************************************************************
@@ -137,6 +149,7 @@
 *     retira uma peca na casa do tabuleiro passada como parametroe retorna por referencia
 *
 *  $EP Parâmetros
+*     pTabuleiro - tabuleiro para retirar a peca
 *     pPeca   - ponteiro para a peca a ser recebida
 *     Casa    - casa onde a peca sera retirada
 *
@@ -149,7 +162,7 @@
 *
 ***********************************************************************/
 
-   TAB_tpCondRet TAB_RetirarPeca(void **pPeca, int Casa);
+   TAB_tpCondRet TAB_RetirarPeca( TAB_tpTabuleiro **pTabuleiro, void **pPeca, int Casa);
 
 
 /***********************************************************************
@@ -160,6 +173,7 @@
 *     move uma peca na casa do tabuleiro para outra casa
 *
 *  $EP Parâmetros
+*     pTabuleiro - tabuleiro para mover a peca
 *     Casa    - casa onde a peca sera retirada
 *	  Passos  - numero de passos a andar com a peça
 *
@@ -172,7 +186,7 @@
 *
 ***********************************************************************/
 
-   TAB_tpCondRet TAB_MoverPeca(int Casa, int Passos);
+   TAB_tpCondRet TAB_MoverPeca( TAB_tpTabuleiro **pTabuleiro, int Casa, int Passos);
 
 
 /***********************************************************************
@@ -183,6 +197,7 @@
 *     conta o numero de pecas na casa e retorna o valor por referencia
 *
 *  $EP Parâmetros
+*     pTabuleiro - tabuleiro para contar as pecas
 *     Casa    - casa onde a peca sera retirada
 *	  Quatidade  - quatidade de peças na casa
 *
@@ -195,7 +210,7 @@
 *
 ***********************************************************************/
 
-   TAB_tpCondRet TAB_QuantidadePecasCasa(int Casa, int *Quantidade);
+   TAB_tpCondRet TAB_QuantidadePecasCasa( TAB_tpTabuleiro *pTabuleiro, int Casa, int *Quantidade);
 
 
 #undef TABULEIRO_EXT

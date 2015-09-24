@@ -1,7 +1,7 @@
 /***************************************************************************
 *  $MCI Modulo de implementação: TDAP Teste dadopontos gamao
 *
-*  Arquivo gerado:              TESTDAP.C
+*  Arquivo gerado:              TESTDAO.C
 *  Letras identificadoras:      TDAP
 *
 *  Nome da base de software:    Jogo de Gamao
@@ -12,6 +12,8 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	   2.00    lsm  13/09/2015  revisao e comentarios  
+*	   1.00    jdz  12/09/2015  inicio de implementacao
 *
 ***************************************************************************/
 
@@ -31,9 +33,10 @@
 #define     DESTRUIR_DADOPONTOS_CMD   "=destruirdadopontos"
 #define     DOBRAR_PONTUACAO_CMD	  "=dobrarpontuacao"
 #define     OBTER_PONTUACAO_CMD		  "=obterpontuacao"
+#define		OBTER_ULTIMA_DOBRA_CMD	  "=obterultimadobra"
 
 
-/*****  Código das funções exportadas pelo módulo  *****/
+DAP_tpDadoPontos *pDadoPontos = NULL;
 
 
 /***********************************************************************
@@ -49,6 +52,7 @@
 *     =destruirdadopontos			condret
 *	  =dobrarpontuacao				int		condret
 *	  =obterpontuacao				int		condret
+*	  =obterultimadobra				int		condret
 *
 ***********************************************************************/
 
@@ -59,7 +63,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		CondRetEsp = -1,
 		jogador,
 		pontuacao,
-		pontuacaoEsp;
+		pontuacaoEsp,
+		jogadorEsp;
 
 	TST_tpCondRet Ret;
 
@@ -76,7 +81,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet =DAP_CriarDadoPontos();
+		CondRet =DAP_CriarDadoPontos(&pDadoPontos);
 
 		return TST_CompararInt(CondRetEsp, CondRet,
 			"Condicao de retorno errada ao criar dadopontos.");
@@ -95,7 +100,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet =DAP_DestruirDadoPontos();
+		CondRet =DAP_DestruirDadoPontos(&pDadoPontos);
 
 		return TST_CompararInt(CondRetEsp, CondRet,
 			"Condicao de retorno errada ao destruir dadopontos.");
@@ -114,7 +119,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet = DAP_DobrarPontuacao(jogador);
+		CondRet = DAP_DobrarPontuacao(&pDadoPontos, jogador);
 
 		return TST_CompararInt(CondRetEsp, CondRet,
 			"Condicao de retorno errada ao dobrar pontuacao.");
@@ -133,7 +138,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet = DAP_ObterPontuacao(&pontuacao);
+		CondRet = DAP_ObterPontuacao(pDadoPontos, &pontuacao);
 
 		Ret = TST_CompararInt(CondRetEsp, CondRet,
 			"Condicao de retorno errada ao obter pontuacao.");
@@ -148,6 +153,36 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* Fim ativa: Testar obter pontuacao  */
 
+	/* Testar obter ultima dobra */
+
+	else if (strcmp(ComandoTeste, OBTER_ULTIMA_DOBRA_CMD) == 0)
+	{
+
+		numLidos = LER_LerParametros("ii",
+			&jogadorEsp, &CondRetEsp);
+
+		if (numLidos != 2) {
+			return TST_CondRetParm;
+		} /* if */
+
+		CondRet = DAP_ObterUltimaDobra(pDadoPontos, &jogador);
+
+		Ret = TST_CompararInt(CondRetEsp, CondRet,
+			"Condicao de retorno errada ao obter ultimo jogador a dobrar.");
+
+		if (Ret != TST_CondRetOK)
+			return Ret;
+
+		if (CondRet == DAP_CondRetDadoPontosNaoExiste)
+			return TST_CondRetOK;
+
+		return TST_CompararInt(jogadorEsp, jogador, "jogador errado");
+
+	} /* Fim ativa: Testar obter ultima dobra  */
+
 	return TST_CondRetNaoConhec;
 
 } /* Fim função: TDAP &Testar dadopontos */
+
+
+/********** Fim do módulo de implementação: TDAP Teste DadoPontos **********/

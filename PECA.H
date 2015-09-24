@@ -14,11 +14,11 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	   1.00    jdz   15/09/15   inicio de desenvolvimento
 *
 *  $ED Descrição do módulo
-*   Obtem a cor e retorna por referencia. 
-*	Recebe como parametros a peca para descobrir a cor e um vetor cor onde sera preenchida a cor.
-*   Retorna CondRetOk, CondRetPecaNaoExiste.
+*	  define o modulo peca peca para ser usada no jogo de Gamao
+*
 *
 ***************************************************************************/
 
@@ -29,7 +29,7 @@
 #endif
 
 
-typedef struct PEC_tagPeca tpPeca;
+typedef struct PEC_tagPeca PEC_tpPeca;
 
 /***********************************************************************
 *
@@ -49,11 +49,11 @@ typedef struct PEC_tagPeca tpPeca;
 		PEC_CondRetPecaNaoExiste  ,
 			   /* A peca não foi criada*/	
 
-        PEC_CondRetFaltouMemoria  , 
+        PEC_CondRetFaltouMemoria   
 			   /* Faltou Memoria*/
 
 
-} PEC_tpCondRet ;
+   } PEC_tpCondRet ;
 
 /***********************************************************************
 *
@@ -63,7 +63,7 @@ typedef struct PEC_tagPeca tpPeca;
 *    Cria uma nova peca vazia
 *
 *	$EP Parâmetros
-*    cor - um vetor cor onde sera preenchida a cor.
+*    cor - um vetor cor para colocar na peca.
 *    pPeca - ponteiro para criar peca e definir cor. 
 *
 *
@@ -73,7 +73,7 @@ typedef struct PEC_tagPeca tpPeca;
 *
 ***********************************************************************/
 
-   PEC_tpCondRet PEC_CriarPeca(char *cor, tpPeca **pPeca);
+   PEC_tpCondRet PEC_CriarPeca(char *cor, PEC_tpPeca **pPeca);
 
 
  /***********************************************************************
@@ -89,7 +89,7 @@ typedef struct PEC_tagPeca tpPeca;
 *
 ***********************************************************************/
 
-   PEC_tpCondRet PEC_DestruirPeca(tpPeca **pPeca);
+   PEC_tpCondRet PEC_DestruirPeca(PEC_tpPeca **pPeca);
 
 /***********************************************************************
 *
@@ -108,7 +108,7 @@ typedef struct PEC_tagPeca tpPeca;
 *     PEC_CondRetPecaNaoExiste - se a peca nao foi criada
 *
 ***********************************************************************/
-   PEC_tpCondRet PEC_ObterCor(tpPeca **pPeca, char cor[]);
+   PEC_tpCondRet PEC_ObterCor(PEC_tpPeca *pPeca, char *cor);
 
 #undef PECA_EXT
 

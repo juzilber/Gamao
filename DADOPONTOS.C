@@ -41,28 +41,22 @@
    } DAP_tpDadoPontos;
 
 
-/*****  Dados encapsulados no módulo  *****/
-
-   static DAP_tpDadoPontos * pDadoPontos = NULL;
-      /* Ponteiro para a estrutura de dadoPontos */
-
-
 /***************************************************************************
 *
 *  Função: DAP  &Criar dadoPontos
 *  ****/
 
-   DAP_tpCondRet DAP_CriarDadoPontos( void ){
+   DAP_tpCondRet DAP_CriarDadoPontos( DAP_tpDadoPontos **pDadoPontos ){
 
-	   if (pDadoPontos != NULL)
-		   DAP_DestruirDadoPontos();
+	   if ((*pDadoPontos) != NULL)
+		   DAP_DestruirDadoPontos(pDadoPontos);
 
-	   pDadoPontos = (DAP_tpDadoPontos*)malloc(sizeof(DAP_tpDadoPontos));
+	   *pDadoPontos = (DAP_tpDadoPontos*)malloc(sizeof(DAP_tpDadoPontos));
 	   if (pDadoPontos == NULL)
 		   return DAP_CondRetFaltouMemoria;
 
-	   pDadoPontos->jogador = 0;
-	   pDadoPontos->pontuacao = 1;
+	   (*pDadoPontos)->jogador = 0;
+	   (*pDadoPontos)->pontuacao = 1;
 
 	   return DAP_CondRetOK;
 
@@ -74,14 +68,14 @@
 *  Função: DAP  &Destruir dadoPontos
 *  ****/
 
-   DAP_tpCondRet DAP_DestruirDadoPontos( void ){
+   DAP_tpCondRet DAP_DestruirDadoPontos( DAP_tpDadoPontos **pDadoPontos ){
 
-	   if (pDadoPontos == NULL)
+	   if (*pDadoPontos == NULL)
 		   return DAP_CondRetDadoPontosNaoExiste;
 
-	   free(pDadoPontos);
+	   free(*pDadoPontos);
 
-	   pDadoPontos = NULL;
+	   *pDadoPontos = NULL;
 
 	   return DAP_CondRetOK;
 
@@ -93,24 +87,23 @@
 *  Função: DAP  &Dobrar pontuacao
 *  ****/
 
-   DAP_tpCondRet DAP_DobrarPontuacao(int jogador){
+   DAP_tpCondRet DAP_DobrarPontuacao( DAP_tpDadoPontos **pDadoPontos, int jogador){
 
-	   if (pDadoPontos == NULL)
+	   if (*pDadoPontos == NULL)
 		   return DAP_CondRetDadoPontosNaoExiste;
 
-	   if (pDadoPontos->pontuacao == 64)
+	   if ((*pDadoPontos)->pontuacao == 64)
 		   return DAP_CondRetPontuacaoMaxima;
 
-	   if (pDadoPontos->jogador == jogador)
+	   if ((*pDadoPontos)->jogador == jogador)
 		   return DAP_CondRetJogadorNaoPodeDobrar;
 
-	   pDadoPontos->pontuacao *= 2;
-	   pDadoPontos->jogador = jogador;
+	   (*pDadoPontos)->pontuacao *= 2;
+	   (*pDadoPontos)->jogador = jogador;
 
 	   return DAP_CondRetOK;
 
    } /* Fim função: DAP  &Dobrar potuacao */
-
 
 
 /***************************************************************************
@@ -118,7 +111,7 @@
 *  Função: DAP  &Obter pontuacao
 *  ****/
 
-   DAP_tpCondRet DAP_ObterPontuacao(int * Pontuacao){
+   DAP_tpCondRet DAP_ObterPontuacao( DAP_tpDadoPontos *pDadoPontos, int * Pontuacao){
 
 	   if (pDadoPontos == NULL)
 		   return DAP_CondRetDadoPontosNaoExiste;
@@ -129,5 +122,21 @@
 
    } /* Fim função: DAP  &Obter potuacao */
 
+
+/***************************************************************************
+*
+*  Função: DAP  &Obter ultima dobra
+*  ****/
+
+   DAP_tpCondRet DAP_ObterUltimaDobra(DAP_tpDadoPontos *pDadoPontos, int * jogador){
+
+	   if (pDadoPontos == NULL)
+		   return DAP_CondRetDadoPontosNaoExiste;
+
+	   *jogador = pDadoPontos->jogador;
+
+	   return DAP_CondRetOK;
+
+   } /* Fim função: DAP  &Obter ultima dobra */
 
    /********** Fim do módulo de implementação: DAP  DadoPontos **********/

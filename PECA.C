@@ -10,8 +10,9 @@
 *  Autores: jdz - Juliana Dana Zilberberg
 *
 *  $HA Histórico de evolução:
-*     Versão  Autor    Data        Observações
-*      1.0    jdz    14/09/2015   inicio de implementacao
+*     Versão  Autor    Data     Observações
+*	   1.00    jdz   15/09/15   inicio de desenvolvimento 
+*
 ***************************************************************************/
 #define PECA_OWN
 #include "PECA.H"
@@ -30,7 +31,7 @@
 
 typedef struct PEC_tagPeca {
 
-	   char cor[10];
+	   char *cor;
 
    } PEC_tpPeca;
 /***************************************************************************
@@ -39,7 +40,7 @@ typedef struct PEC_tagPeca {
 *
 ******/
 
-   PEC_tpCondRet PEC_CriarPeca( char cor[], tpPeca **pPeca ){;
+   PEC_tpCondRet PEC_CriarPeca( char *cor, PEC_tpPeca **pPeca ){;
 
 	   if ((*pPeca) != NULL)
 	   {
@@ -47,11 +48,13 @@ typedef struct PEC_tagPeca {
 
 	   } /* if */
 
-	   *pPeca = (tpPeca *)malloc(sizeof(tpPeca));
+	   *pPeca = (PEC_tpPeca *)malloc(sizeof(PEC_tpPeca));
 	   if (*pPeca == NULL)
 		   return PEC_CondRetFaltouMemoria;
+
+	   (*pPeca)->cor = (char *)malloc(10 * sizeof(char));
 	  
-	   strcpy(cor, (*pPeca)->cor);
+	   strcpy((*pPeca)->cor, cor);
 	   
 	   return PEC_CondRetOK;
 
@@ -64,7 +67,7 @@ typedef struct PEC_tagPeca {
 *
 ******/
 
-   PEC_tpCondRet PEC_DestruirPeca(tpPeca **pPeca)
+   PEC_tpCondRet PEC_DestruirPeca(PEC_tpPeca **pPeca)
    {
    
 	   if (*pPeca == NULL)
@@ -83,13 +86,15 @@ typedef struct PEC_tagPeca {
 *
 ******/ 
 
-   PEC_tpCondRet PEC_ObterCor(tpPeca **pPeca, char cor[])
+   PEC_tpCondRet PEC_ObterCor(PEC_tpPeca *pPeca, char *cor)
    {
 	
-	   if (*pPeca == NULL)
+	   if (pPeca == NULL)
 		   return PEC_CondRetPecaNaoExiste;
 
-	   strcpy((*pPeca)->cor, cor);
+	   strcpy(cor, pPeca->cor);
+
+	   return PEC_CondRetOK;
 	   
    } /* Fim funçao: PEC obter peca*/
 

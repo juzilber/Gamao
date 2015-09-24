@@ -12,6 +12,9 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	   3.00    lsm   14/09/2015  checagem final
+*      2.00    lsm   12/09/2015  adicao de mais testes
+*      1.00    ea    11/09/2015  inicio do desenvolvimento
 *
 ***************************************************************************/
 
@@ -33,10 +36,9 @@
 #define     RETIRAR_PECA_CMD		  "=retirarpeca"
 #define     MOVER_PECA_CMD		      "=moverpeca"
 #define     QUANTIDADE_PECA_CMD		  "=quantidadepeca"
+#define     LIBERAR_CMD				  "=liberar"
 
-
-/*****  Código das funções exportadas pelo módulo  *****/
-
+TAB_tpTabuleiro *pTabuleiro;
 
 /***********************************************************************
 *
@@ -53,6 +55,7 @@
 *	  =retirarpeca					int		int		condret
 *	  =moverpeca					int	    int		condret
 *     =quantidadepeca				int		int		condret
+*	  =liberar
 *
 ***********************************************************************/
 
@@ -102,7 +105,7 @@
                return TST_CondRetParm ;
             } /* if */
 
-			CondRet = TAB_CriarTabuleiro();
+			CondRet = TAB_CriarTabuleiro(&pTabuleiro);
 
            return TST_CompararInt( CondRetEsp , CondRet ,
                      "Condicao de retorno errada ao criar tabuleiro.");
@@ -121,7 +124,7 @@
                return TST_CondRetParm ;
             } /* if */
 
-			CondRet = TAB_DestruirTabuleiro();
+			CondRet = TAB_DestruirTabuleiro(&pTabuleiro);
 
            return TST_CompararInt( CondRetEsp , CondRet ,
                      "Condicao de retorno errada ao destruir tabuleiro.");
@@ -140,7 +143,7 @@
 				 return TST_CondRetParm;
 			 } /* if */
 
-			 CondRet = TAB_InserirPeca(vtPeca[indicePeca], casa);
+			 CondRet = TAB_InserirPeca(&pTabuleiro, vtPeca[indicePeca], casa);
 
 			 if (CondRet != TAB_CondRetOK)
 				 free(vtPeca[indicePeca]);
@@ -162,7 +165,7 @@
 				 return TST_CondRetParm;
 			 } /* if */
 
-			 CondRet = TAB_RetirarPeca(&valorPeca, casa);
+			 CondRet = TAB_RetirarPeca(&pTabuleiro, &valorPeca, casa);
 
 			 Ret = TST_CompararInt(CondRetEsp, CondRet,
 				 "Condicao de retorno errada ao retirar peca.");
@@ -172,7 +175,11 @@
 
 			 pecaRecebida = (int *)valorPeca;
 
-			 return TST_CompararInt(*vtPeca[indicePeca], *pecaRecebida, "peca recebida errada");
+			 Ret = TST_CompararInt(*vtPeca[indicePeca], *pecaRecebida, "peca recebida errada");
+
+			 free(pecaRecebida);
+
+			 return Ret;
 
 		 } /* Fim ativa: Testar retirar peca  */
 
@@ -188,7 +195,7 @@
 				 return TST_CondRetParm;
 			 } /* if */
 
-			 CondRet = TAB_MoverPeca(casa, passos);
+			 CondRet = TAB_MoverPeca(&pTabuleiro, casa, passos);
 
 			 return TST_CompararInt(CondRetEsp, CondRet,
 				 "Condicao de retorno errada ao mover peca.");
@@ -207,7 +214,7 @@
 				 return TST_CondRetParm;
 			 } /* if */
 
-			 CondRet =TAB_QuantidadePecasCasa(casa, &quantidadePecas);
+			 CondRet =TAB_QuantidadePecasCasa(pTabuleiro, casa, &quantidadePecas);
 
 			 Ret = TST_CompararInt(CondRetEsp, CondRet,
 				 "Condicao de retorno errada ao contar peca.");
@@ -219,6 +226,18 @@
 
 		 } /* Fim ativa: Testar quantidade peca  */
 
+		 /* Liberar espaco alocado teste */
+
+		 else if (strcmp(ComandoTeste, LIBERAR_CMD) == 0)
+		 {
+
+			 for (indice = 0; indice < 10; indice++)
+				 free(vtPeca[indice]);
+
+			 return TST_CondRetOK;
+
+		 } /* Fim ativa: Liberar espaco alocado teste  */
+
       return TST_CondRetNaoConhec ;
 
    } /* Fim função: TTAB &Testar tabuleiro */
@@ -227,5 +246,5 @@
 /*****  Código das funções encapsuladas no módulo  *****/
 
 
-/********** Fim do módulo de implementação: TLIS Teste lista de símbolos **********/
+/********** Fim do módulo de implementação: TTAB Teste tabuleiro **********/
 

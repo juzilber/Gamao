@@ -41,18 +41,9 @@
 
    } TAB_tpTabuleiro;
 
-
-/*****  Dados encapsulados no módulo  *****/
-
-   static TAB_tpTabuleiro * pTabuleiro = NULL;
-      /* Ponteiro para a cabeca do tabuleiro */
-
-
 /***** Protótipos das funções encapuladas no módulo *****/
 
-   void DestruirCasa(void * pValor);
-
-   void DestruirBase(void * pValor);
+   void Destruir(void * pValor);
 
 
 /***************************************************************************
@@ -60,34 +51,34 @@
 *  Função: TAB  &Criar tabuleiro
 *  ****/
 
-   TAB_tpCondRet TAB_CriarTabuleiro( void ){
+   TAB_tpCondRet TAB_CriarTabuleiro( TAB_tpTabuleiro **pTabuleiro ){
 
 	   int indice;
 	   LIS_tpCondRet CondRet;
 
-	   if (pTabuleiro != NULL)
+	   if ((*pTabuleiro) != NULL)
 	   {
-		   TAB_DestruirTabuleiro();
+		   TAB_DestruirTabuleiro(pTabuleiro);
 
 	   } /* if */
 
-	   pTabuleiro = (TAB_tpTabuleiro *)malloc(sizeof(TAB_tpTabuleiro));
-	   if (pTabuleiro == NULL)
+	   *pTabuleiro = (TAB_tpTabuleiro *)malloc(sizeof(TAB_tpTabuleiro));
+	   if ((*pTabuleiro) == NULL)
 		   return TAB_CondRetFaltouMemoria;
 
-	   pTabuleiro->pBaseTabuleiro = LIS_CriarLista(DestruirBase);
+	   (*pTabuleiro)->pBaseTabuleiro = LIS_CriarLista(Destruir);
 
-	   if (pTabuleiro->pBaseTabuleiro == NULL)
+	   if ((*pTabuleiro)->pBaseTabuleiro == NULL)
 		   return TAB_CondRetFaltouMemoria;
 
 	   for (indice = 0; indice < 24; indice++){
 
-		   pTabuleiro->pCasaCorr = LIS_CriarLista(DestruirCasa);
+		   (*pTabuleiro)->pCasaCorr = LIS_CriarLista(Destruir);
 
-		   if (pTabuleiro->pCasaCorr == NULL)
+		   if ((*pTabuleiro)->pCasaCorr == NULL)
 			   return TAB_CondRetFaltouMemoria;
 
-		   CondRet = LIS_InserirElementoAntes(pTabuleiro->pBaseTabuleiro, pTabuleiro->pCasaCorr);
+		   CondRet = LIS_InserirElementoAntes((*pTabuleiro)->pBaseTabuleiro, (*pTabuleiro)->pCasaCorr);
 
 		   if (CondRet == LIS_CondRetFaltouMemoria)
 			   return TAB_CondRetFaltouMemoria;
@@ -104,33 +95,33 @@
 *  Função: TAB  &Destruir tabuleiro
 *  ****/
 
-   TAB_tpCondRet TAB_DestruirTabuleiro( void ){
+   TAB_tpCondRet TAB_DestruirTabuleiro( TAB_tpTabuleiro **pTabuleiro ){
 
 	   int indice;
 
 	   if (pTabuleiro == NULL)
 		   return TAB_CondRetTabuleiroNaoExiste;
 
-	   IrInicioLista(pTabuleiro->pBaseTabuleiro);
+	   IrInicioLista((*pTabuleiro)->pBaseTabuleiro);
 
 	   for (indice = 0; indice < 23; indice++){
 
-		   pTabuleiro->pCasaCorr = (LIS_tppLista)LIS_ObterValor(pTabuleiro->pBaseTabuleiro);
+		   (*pTabuleiro)->pCasaCorr = (LIS_tppLista)LIS_ObterValor((*pTabuleiro)->pBaseTabuleiro);
 		   
 
-		   LIS_DestruirLista(pTabuleiro->pCasaCorr);
+		   LIS_DestruirLista((*pTabuleiro)->pCasaCorr);
 
-		   LIS_AvancarElementoCorrente(pTabuleiro->pBaseTabuleiro, 1);
+		   LIS_AvancarElementoCorrente((*pTabuleiro)->pBaseTabuleiro, 1);
 
 	   } /* for */
 
-	   pTabuleiro->pCasaCorr = (LIS_tppLista)LIS_ObterValor(pTabuleiro->pBaseTabuleiro);
+	   (*pTabuleiro)->pCasaCorr = (LIS_tppLista)LIS_ObterValor((*pTabuleiro)->pBaseTabuleiro);
 
-	   LIS_DestruirLista(pTabuleiro->pCasaCorr);
+	   LIS_DestruirLista((*pTabuleiro)->pCasaCorr);
    
-	   LIS_DestruirLista(pTabuleiro->pBaseTabuleiro);
+	   LIS_DestruirLista((*pTabuleiro)->pBaseTabuleiro);
 
-	   pTabuleiro = NULL;
+	   free(*pTabuleiro);
 
 	   return TAB_CondRetOK;
    
@@ -142,22 +133,22 @@
 *  Função: TAB  &Inserir peca
 *  ****/
 
-   TAB_tpCondRet TAB_InserirPeca( void *pPeca, int Casa){
+   TAB_tpCondRet TAB_InserirPeca( TAB_tpTabuleiro **pTabuleiro, void *pPeca, int Casa){
 
 	   LIS_tpCondRet CondRet;
 
-	   if (pTabuleiro == NULL)
+	   if ((*pTabuleiro) == NULL)
 		   return TAB_CondRetTabuleiroNaoExiste;
 
 	   if (Casa < 1 || Casa > 24)
 		   return TAB_CondRetCasaNaoExiste;
 
-	   IrInicioLista(pTabuleiro->pBaseTabuleiro);
-	   LIS_AvancarElementoCorrente(pTabuleiro->pBaseTabuleiro, Casa - 1);
+	   IrInicioLista((*pTabuleiro)->pBaseTabuleiro);
+	   LIS_AvancarElementoCorrente((*pTabuleiro)->pBaseTabuleiro, Casa - 1);
 
-	   pTabuleiro->pCasaCorr = (LIS_tppLista)LIS_ObterValor(pTabuleiro->pBaseTabuleiro);
+	   (*pTabuleiro)->pCasaCorr = (LIS_tppLista)LIS_ObterValor((*pTabuleiro)->pBaseTabuleiro);
 
-	   CondRet = LIS_InserirElementoApos(pTabuleiro->pCasaCorr, pPeca);
+	   CondRet = LIS_InserirElementoApos((*pTabuleiro)->pCasaCorr, pPeca);
 
 	   if (CondRet != LIS_CondRetOK)
 		   return TAB_CondRetFaltouMemoria;
@@ -172,27 +163,27 @@
 *  Função: TAB  &retirar peca
 *  ****/
    
-   TAB_tpCondRet TAB_RetirarPeca(void **pPeca, int Casa){
+   TAB_tpCondRet TAB_RetirarPeca( TAB_tpTabuleiro **pTabuleiro, void **pPeca, int Casa){
 
-	   if (pTabuleiro == NULL)
+	   if ((*pTabuleiro) == NULL)
 		   return TAB_CondRetTabuleiroNaoExiste;
 
 	   if (Casa < 1 || Casa > 24)
 		   return TAB_CondRetCasaNaoExiste;
 
-	   IrInicioLista(pTabuleiro->pBaseTabuleiro);
-	   LIS_AvancarElementoCorrente(pTabuleiro->pBaseTabuleiro, Casa - 1);
+	   IrInicioLista((*pTabuleiro)->pBaseTabuleiro);
+	   LIS_AvancarElementoCorrente((*pTabuleiro)->pBaseTabuleiro, Casa - 1);
 
-	   pTabuleiro->pCasaCorr = (LIS_tppLista)LIS_ObterValor(pTabuleiro->pBaseTabuleiro);
+	   (*pTabuleiro)->pCasaCorr = (LIS_tppLista)LIS_ObterValor((*pTabuleiro)->pBaseTabuleiro);
 
-	   IrFinalLista(pTabuleiro->pCasaCorr);
+	   IrFinalLista((*pTabuleiro)->pCasaCorr);
 
-	   *pPeca = LIS_ObterValor(pTabuleiro->pCasaCorr);
+	   *pPeca = LIS_ObterValor((*pTabuleiro)->pCasaCorr);
 
 	   if (*pPeca == NULL)
 		   return TAB_CondRetCasaVazia;
 
-	   LIS_ExcluirElemento(pTabuleiro->pCasaCorr);
+	   LIS_ExcluirElemento((*pTabuleiro)->pCasaCorr);
 
 	   return TAB_CondRetOK;
 
@@ -204,17 +195,17 @@
 *  Função: TAB  &mover peca
 *  ****/
 
-   TAB_tpCondRet TAB_MoverPeca(int Casa, int Passos){
+   TAB_tpCondRet TAB_MoverPeca( TAB_tpTabuleiro **pTabuleiro, int Casa, int Passos){
 
 	   TAB_tpCondRet CondRet;
 	   void* aux;
 
-	   CondRet = TAB_RetirarPeca(&aux, Casa);
+	   CondRet = TAB_RetirarPeca(pTabuleiro, &aux, Casa);
 
 	   if (CondRet != TAB_CondRetOK)
 		   return CondRet;
 
-	   CondRet = TAB_InserirPeca(aux, Casa + Passos);
+	   CondRet = TAB_InserirPeca(pTabuleiro, aux, Casa + Passos);
 
 	   return CondRet;
 
@@ -226,7 +217,7 @@
 *  Função: TAB  &quantidade pecas casa
 *  ****/
 
-   TAB_tpCondRet TAB_QuantidadePecasCasa(int Casa, int *Quantidade){
+   TAB_tpCondRet TAB_QuantidadePecasCasa( TAB_tpTabuleiro *pTabuleiro, int Casa, int *Quantidade){
 
 	   LIS_tpCondRet CondRet;
 
@@ -267,25 +258,11 @@
 
 /***********************************************************************
 *
-*  $FC Função: TAB - Destruir casa
-*
-***********************************************************************/
-
-   void DestruirCasa(void * pValor)
-   {
-
-	   free(pValor);
-
-   } /* Fim função: TAB - Destruir casa */
-
-
-/***********************************************************************
-*
 *  $FC Função: TAB - Destruir base
 *
 ***********************************************************************/
 
-   void DestruirBase(void * pValor)
+   void Destruir(void * pValor)
    {
 
 	   pValor = NULL;
