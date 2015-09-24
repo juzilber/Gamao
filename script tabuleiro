@@ -16,10 +16,16 @@
 ==Testando se foi devidamente destruido
 =destruirtabuleiro 3
 
-==Testando funções antes de criar o tabuleiro
+==Testando inserção antes de criar o tabuleiro
 =inserirpeca 4 6 3
+
+==Testando movimentar antes de criar o tabuleiro
 =moverpeca 3 5 3
+
+==Testando retirar antes de criar o tabuleiro
 =retirarpeca 5 4 3
+
+==Testando quantidade antes de criar o tabuleiro
 =quantidadepeca 3 4 3
 
 ==Testar funções de inserção
@@ -27,20 +33,34 @@
 =inserirpeca 5 1 0
 =inserirpeca 3 24 0
 =inserirpeca 2 24 0
+
+==Testar função de inserção em casa inexistente
 =inserirpeca 7 0 5
 
-==Testar funções de movimento
-=moverpeca 1 4 0
+==Testar função de movimento válida
+=moverpeca 1 5 0
+
+==Testar função de movimento em casa vazia
 =moverpeca 2 6 1
+
+==Testar função de movimento em casa inexistente
 =moverpeca 33 5 5
 
-==Testar retiradas de peças
+==Testar retiradas de peças de uma casa válida
 =retirarpeca 5 4 0
+
+==Testar retiradas de peças de uma casa vazia
 =retirarpeca 4 22 1
+
+==Testar retiradas de peças de uma casa inválida
 =retirarpeca 2 77 5
 
-==Calcular a quantidade de pecas
+==Calcular a quantidade de pecas em casa válida
 =quantidadepeca 24 2 0
-=quantidadepeca 3 0 1
+
+//==Calcular a quantidade de pecas em casa va
+//=quantidadepeca 3 0 1
+
+//==Calcular a quantidade de pecas em casa invalida
 =quantidadepeca 69 2 5
 
