@@ -1,0 +1,43 @@
+
+-Cabeça lista Gamao -> elem lista -> pValor = Tabuleiro ou 
+Cabeça lista Gamao -> elem lista -> pValor = Dado pontos ou 
+Cabeça lista Gamao -> elem lista -> pValor = Dado ou 
+Cabeça lista Gamao -> elem lista -> pValor = Peças capturadas ou 
+Cabeça lista Gamao -> elem lista -> pValor = Peças finalizadas.
+
+
+-Se Cabeça lista Gamao -> elem lista -> pProx != NULL , 
+então elem lista -> pProx -> pAnt = elem lista
+
+
+-Tabuleiro, Dado pontos, Dado, Peças capturadas e Peças finalizadas 
+sempre são refereciadas por algum pValor de algum elem lista do Cabeça lista Gamao
+
+
+-Se Tabuleiro -> Cabeça lista -> elem lista -> pValor = Cabeça lista ,
+então pValor = Cabeça lista -> elem lista -> pValor = Peça
+
+
+-Se Tabuleiro -> Cabeça lista -> elem lista -> pValor = Peça ,
+então existe um Tabuleiro -> Cabeça lista -> elem lista -> pValor = Cabeça lista 
+cujo pValor do elem lista aponta para peça
+
+
+-Se Tabuleiro -> Cabeça lista -> elem lista -> pProx != NULL , 
+então elem lista -> pProx -> pAnt = elem lista
+
+
+-Se Peças capturadas -> Cabeça lista -> elem lista -> pProx != NULL , 
+então elem lista -> pProx -> pAnt = elem lista
+
+
+-Se Peças finalizadas -> Cabeça lista -> elem lista -> pProx != NULL , 
+então elem lista -> pProx -> pAnt = elem lista
+
+
+-Se Peças capturadas -> Cabeça lista -> elem lista -> != NULL, 
+Peças capturadas -> Cabeça lista -> elem lista -> Peça.
+
+
+-Se Peças finalizadas -> Cabeça lista -> elem lista -> != NULL, 
+Peças finalizadas -> Cabeça lista -> elem lista -> Peça.
