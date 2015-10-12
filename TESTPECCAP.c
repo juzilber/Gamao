@@ -1,0 +1,156 @@
+# Gamao
+/***************************************************************************
+*  $MCI Modulo de implementação: TPCA Teste pecas capturadas
+*
+*  Arquivo gerado:              TES_PECCAP.c
+*  Letras identificadoras:      TPCA
+*
+*  Nome da base de software:    Jogo de Gamao
+*
+*  Projeto: INF 1301 Jogo de Gamao
+*  Autores: lsm - Lucas Silva de Medeiros
+*			ea  - Eduardo Abramoff
+*
+*  $HA Histórico de evolução:
+*     Versão  Autor    Data     Observações
+*		01	   ea	  10/10		Início do desenvolvimento
+*
+***************************************************************************/
+
+#include    <string.h>
+#include    <stdio.h>
+#include    <malloc.h>
+
+#include	"TST_ESPC.H"
+
+#include	"GENERICO.H"
+#include	"LERPARM.H"
+
+#include	"PECCAP.H"
+
+
+#define     CRIAR_PECASCAPTURADAS_CMD       "=criarpecascapturadas"
+#define     DESTRUIR_PECASCAPTURADAS_CMD    "=destruirpecascapturadas"
+#define     INSERIR_PECACAPTURADA_CMD		  "=inserirpecacapturada"
+#define     RETIRAR_PECACAPTURADA_CMD		  "=retirarpecacapturada"
+
+
+/*****  Código das funções exportadas pelo módulo  *****/
+
+
+/***********************************************************************
+*
+*  $FC Função: TPCA &Testar pecas capturadas
+*
+*  $ED Descrição da função
+*     a funçao tem objetivo de testar o modulo PECCAP.C
+*
+*     Comandos disponíveis:
+*
+*     =criarpecascapturadas				condret  
+*     =destruirpecascapturadas			condret     
+*	  =inserirpecacapturada				int		int		condret
+*	  =retirarpecacapturada				int		int		condret
+*
+***********************************************************************/
+static PCA_tppPecasCapturadas pPecasCapturadas = NULL;
+      
+
+   TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
+   {
+
+	  int indice,
+		  numLidos = -1,
+		  CondRetEsp = -1,
+		  jogador;
+		  
+	  PCA_tpCondRet CondRet ;
+	  TST_tpCondRet Ret;
+	     
+	  /* testar criar estrutura de pecas capturadas */
+
+         if ( strcmp( ComandoTeste , CRIAR_PECASCAPTURADAS_CMD ) == 0 )
+         {
+			 numLidos = LER_LerParametros( "i" ,
+                       &CondRetEsp) ;
+
+            if  ( numLidos != 1 ) {
+               return TST_CondRetParm ;
+            } /* if */
+
+			CondRet = PCA_CriarPecasCapturadas(&pPecasCapturadas);
+
+           return TST_CompararInt( CondRetEsp , CondRet ,
+                     "Condicao de retorno errada ao criar estrutura de pecas capturadas.");
+
+         } /* Fim ativa: Testar criar estrutura de pecas capturadas */
+
+      /* Testar destruir estrutura de pecas capturadas */
+
+         else if ( strcmp( ComandoTeste , DESTRUIR_PECASCAPTURADAS_CMD ) == 0 )
+         {
+
+            numLidos = LER_LerParametros( "i" ,
+                       &CondRetEsp) ;
+
+            if (  numLidos != 1 ) {
+               return TST_CondRetParm ;
+            } /* if */
+
+			CondRet = PCA_DestruirPecasCapturadas(&pPecasCapturadas);
+
+           return TST_CompararInt( CondRetEsp , CondRet ,
+                     "Condicao de retorno errada ao destruir estrutura de pecas capturadas.");
+
+         } /* Fim ativa: Testar destruir estrutura de pecas capturadas  */
+
+	  /* Testar inserir peca na estrutura de pecas capturadas*/
+
+		 else if (strcmp(ComandoTeste, INSERIR_PECACAPTURADA_CMD) == 0)
+		 {
+
+			 numLidos = LER_LerParametros("ii",
+				  &jogador, &CondRetEsp);
+
+			 if (numLidos != 2) {
+				 return TST_CondRetParm;
+			 } /* if */
+
+			 CondRet = PCA_InserirPecaCapturada (pPecasCapturadas,jogador);
+
+
+			 return TST_CompararInt(CondRetEsp, CondRet,
+				 "Condicao de retorno errada ao inserir peca na estrutura de pecas capturadas.");
+
+		 } /* Fim ativa: Testar inserir peca na estrutura de pecas capturadas */
+
+	  /* Testar retirar peca da estrutura de pecas capturadas */
+
+		 else if (strcmp(ComandoTeste, RETIRAR_PECACAPTURADA_CMD) == 0)
+		 {
+
+			 numLidos = LER_LerParametros("ii",
+				 &jogador, &CondRetEsp);
+
+			 if (numLidos != 2) {
+				 return TST_CondRetParm;
+			 } /* if */
+
+			 CondRet = PCA_RetirarPecaCapturada(pPecasCapturadas,jogador);
+
+			 return TST_CompararInt(CondRetEsp, CondRet,
+				 "Condicao de retorno errada ao retirar peca da estrutura de pecas capturadas.");
+
+		 } /* Fim ativa: Testar retirar peca da estrutura de pecas capturadas */
+
+	 
+
+      return TST_CondRetNaoConhec ;
+
+   } /* Fim função: TPCA &Testar pecas capturadas */
+
+
+/*****  Código das funções encapsuladas no módulo  *****/
+
+
+/********** Fim do módulo de implementação: TPCA Teste pecas capturadas **********/
