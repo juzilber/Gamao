@@ -1,0 +1,40 @@
+# Gamao
+// Script:    TestePecasCapturadas.script
+// Autor:     Eduardo Abramoff
+// Data:      11/10/2015
+// Propósito: Testar completamente o módulo pecas capturadas.
+//
+
+
+==Criar estrutura de peças capturadas
+=criarpecascapturadas  0
+
+==Destruir estrutura de peças capturadas
+=destruirpecascapturadas  0
+
+==Destruir estrutura de peças capturadas que não existe
+=destruirpecascapturadas  2
+
+==Criar estrutura de peças capturadas
+=criarpecascapturadas  0
+
+==Inserção de peca capturada em um jogador valido
+=inserirpecacapturada 1 0
+
+==Inserção de peca capturada em um jogador invalido
+=inserirpecacapturada 3 4
+
+==Inserção de peca capturada em um jogador valido e estrutura não criada
+=destruirpecascapturadas  0
+=inserirpecacapturada 1 2
+=criarpecascapturadas  0
+
+==Retirada de peca capturada em um jogador válido
+=retirarpecacapturada 1 0
+
+==Retirada de peca capturada em um jogador inválido
+=retirarpecacapturada 4 4
+
+==Retirada de peca capturada em um jogador válido e estrutura não criada
+=destruirpecascapturadas  0
+=retirarpecacapturada 1 2
