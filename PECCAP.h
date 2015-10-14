@@ -54,14 +54,14 @@
          PCA_CondRetListaVazia ,
                /* A lista não contém elementos */
 		 
-		 PCA_CondRetEstruturaCapturadasNaoExiste ,
+	 PCA_CondRetEstruturaCapturadasNaoExiste ,
                /* A estrutura de peças capturadas não foi criada */
 		 
-		 PCA_CondRetFaltouMemoria , 
-			   /* Faltou Memoria*/
+	 PCA_CondRetFaltouMemoria , 
+		/* Faltou Memoria*/
 
-		 PCA_JogadorNaoExiste,
-			   /* Jogador não existe */
+	 PCA_CondRetJogadorNaoExiste,
+		/* Jogador não existe */
 			   
    } PCA_tpCondRet ;
 
