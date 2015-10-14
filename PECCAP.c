@@ -131,7 +131,7 @@
 		   return PCA_CondRetEstruturaCapturadasNaoExiste;
 
 	   if (jogador != 1 && jogador != 2)
-		   return PCA_JogadorNaoExiste;
+		   return PCA_CondRetJogadorNaoExiste;
 	   	   
 	   if (jogador == 1 )
 			CondRet = LIS_InserirElementoApos(pPecasCapturadas->pCapturadosUm, NULL);
@@ -160,7 +160,7 @@
 		   return PCA_CondRetEstruturaCapturadasNaoExiste;
 
 	   if (jogador != 1 && jogador != 2)
-		   return PCA_JogadorNaoExiste;
+		   return PCA_CondRetJogadorNaoExiste;
 
 	   
 	   if (jogador == 1 )
