@@ -14,7 +14,8 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*      1.00    ea    09/10/2015  inicio do desenvolvimento
+*       2.00	ea    19/10/2015  adaptações na insere e retira
+* 	1.00    ea    09/10/2015  inicio do desenvolvimento
 *
 *  $ED Descrição do módulo
 *     Implementa as listas para armazenar as peças capturadas
@@ -123,7 +124,7 @@
 *
 ****************************************************************************/
 
-   PCA_tpCondRet PCA_InserirPecaCapturada (PCA_tppPecasCapturadas pPecasCapturadas, int jogador){
+   PCA_tpCondRet PCA_InserirPecaCapturada (PCA_tppPecasCapturadas pPecasCapturadas, int jogador, void *pPeca){
 
 	   LIS_tpCondRet CondRet;
 
@@ -131,13 +132,13 @@
 		   return PCA_CondRetEstruturaCapturadasNaoExiste;
 
 	   if (jogador != 1 && jogador != 2)
-		   return PCA_CondRetJogadorNaoExiste;
+		   return PCA_JogadorNaoExiste;
 	   	   
 	   if (jogador == 1 )
-			CondRet = LIS_InserirElementoApos(pPecasCapturadas->pCapturadosUm, NULL);
+			CondRet = LIS_InserirElementoApos(pPecasCapturadas->pCapturadosUm, pPeca);
 
 	   else
-		   CondRet = LIS_InserirElementoApos(pPecasCapturadas->pCapturadosDois, NULL);
+		   CondRet = LIS_InserirElementoApos(pPecasCapturadas->pCapturadosDois, pPeca);
 
 	   if (CondRet != LIS_CondRetOK)
 		   return PCA_CondRetFaltouMemoria;
@@ -153,22 +154,24 @@
 *  
 ***************************************************************************/
    
-   PCA_tpCondRet PCA_RetirarPecaCapturada (PCA_tppPecasCapturadas pPecasCapturadas, int jogador){
+   PCA_tpCondRet PCA_RetirarPecaCapturada (PCA_tppPecasCapturadas pPecasCapturadas, int jogador, void **ppPeca){
 
 	     
 	   if (pPecasCapturadas == NULL)
 		   return PCA_CondRetEstruturaCapturadasNaoExiste;
 
 	   if (jogador != 1 && jogador != 2)
-		   return PCA_CondRetJogadorNaoExiste;
+		   return PCA_JogadorNaoExiste;
 
 	   
-	   if (jogador == 1 )
+	   if (jogador == 1 ){
+		   *ppPeca = LIS_ObterValor(pPecasCapturadas->pCapturadosUm);
 		   LIS_ExcluirElemento(pPecasCapturadas->pCapturadosUm);
-
-	   else
+	   }
+	   else{
+		   *ppPeca = LIS_ObterValor(pPecasCapturadas->pCapturadosDois);
 		   LIS_ExcluirElemento(pPecasCapturadas->pCapturadosDois);
-
+	   }
 
 	   return PCA_CondRetOK;
 
