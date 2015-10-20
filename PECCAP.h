@@ -16,6 +16,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*      2.00	ea    19/10/2015  adaptações na insere e retira
 *      1.00    ea    09/10/2015  inicio do desenvolvimento
 *
 *  $ED Descrição do módulo
@@ -54,15 +55,17 @@
          PCA_CondRetListaVazia ,
                /* A lista não contém elementos */
 		 
-	 PCA_CondRetEstruturaCapturadasNaoExiste ,
+		 PCA_CondRetEstruturaCapturadasNaoExiste ,
                /* A estrutura de peças capturadas não foi criada */
 		 
-	 PCA_CondRetFaltouMemoria , 
-		/* Faltou Memoria*/
+		 PCA_CondRetFaltouMemoria , 
+			   /* Faltou Memoria*/
 
-	 PCA_CondRetJogadorNaoExiste,
-		/* Jogador não existe */
-			   
+		 PCA_JogadorNaoExiste,
+			   /* Jogador não existe */
+		 
+		 PCA_PecaErrada
+			   /*Retorna peça diferente da esperada*/
    } PCA_tpCondRet ;
 
    typedef struct PCA_tagPecasCapturadas * PCA_tppPecasCapturadas ;
@@ -119,7 +122,7 @@
 *
 ***********************************************************************/
 
-   PCA_tpCondRet PCA_InserirPecaCapturada (PCA_tppPecasCapturadas pPecasCapturadas, int jogador);
+   PCA_tpCondRet PCA_InserirPecaCapturada (PCA_tppPecasCapturadas pPecasCapturadas, int jogador, void *pPeca);
 
 
 /***********************************************************************
@@ -141,7 +144,7 @@
 *
 ***********************************************************************/
 
-   PCA_tpCondRet PCA_RetirarPecaCapturada (PCA_tppPecasCapturadas* pPecasCapturadas, int jogador);
+  PCA_tpCondRet PCA_RetirarPecaCapturada (PCA_tppPecasCapturadas pPecasCapturadas, int jogador, void **ppPeca);
 
 
 
