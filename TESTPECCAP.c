@@ -13,7 +13,8 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*		01	   ea	  10/10		Início do desenvolvimento
+*       02  	ea    19/10/2015  adaptações na insere e retira
+*	01	   ea	  10/10		Início do desenvolvimento
 *
 ***************************************************************************/
 
@@ -34,6 +35,8 @@
 #define     INSERIR_PECACAPTURADA_CMD		  "=inserirpecacapturada"
 #define     RETIRAR_PECACAPTURADA_CMD		  "=retirarpecacapturada"
 
+
+static int pecas[2];
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -62,11 +65,17 @@ static PCA_tppPecasCapturadas pPecasCapturadas = NULL;
 	  int indice,
 		  numLidos = -1,
 		  CondRetEsp = -1,
+		  cor,
+		  coresp,
 		  jogador;
 		  
 	  PCA_tpCondRet CondRet ;
 	  TST_tpCondRet Ret;
-	     
+	  int *pPeca;
+	  pecas[0]=0;
+	  pecas[1]=1;
+
+	  
 	  /* testar criar estrutura de pecas capturadas */
 
          if ( strcmp( ComandoTeste , CRIAR_PECASCAPTURADAS_CMD ) == 0 )
@@ -109,14 +118,14 @@ static PCA_tppPecasCapturadas pPecasCapturadas = NULL;
 		 else if (strcmp(ComandoTeste, INSERIR_PECACAPTURADA_CMD) == 0)
 		 {
 
-			 numLidos = LER_LerParametros("ii",
-				  &jogador, &CondRetEsp);
+			 numLidos = LER_LerParametros("iii",
+				  &jogador, &cor, &CondRetEsp);
 
-			 if (numLidos != 2) {
+			 if (numLidos != 3) {
 				 return TST_CondRetParm;
 			 } /* if */
 
-			 CondRet = PCA_InserirPecaCapturada (pPecasCapturadas,jogador);
+			 CondRet = PCA_InserirPecaCapturada (pPecasCapturadas,jogador, &pecas[cor]);
 
 
 			 return TST_CompararInt(CondRetEsp, CondRet,
@@ -129,14 +138,22 @@ static PCA_tppPecasCapturadas pPecasCapturadas = NULL;
 		 else if (strcmp(ComandoTeste, RETIRAR_PECACAPTURADA_CMD) == 0)
 		 {
 
-			 numLidos = LER_LerParametros("ii",
-				 &jogador, &CondRetEsp);
+			 numLidos = LER_LerParametros("iii",
+				 &jogador, &coresp, &CondRetEsp);
 
-			 if (numLidos != 2) {
+			 if (numLidos != 3) {
 				 return TST_CondRetParm;
 			 } /* if */
 
-			 CondRet = PCA_RetirarPecaCapturada(pPecasCapturadas,jogador);
+			 pPeca = NULL;
+			 CondRet = PCA_RetirarPecaCapturada(pPecasCapturadas,jogador, &pPeca);
+
+			 if( CondRet == PCA_CondRetOK)
+			 {
+				 cor = *pPeca;
+				 if (cor != coresp)
+					 CondRet = PCA_PecaErrada;
+			 }
 
 			 return TST_CompararInt(CondRetEsp, CondRet,
 				 "Condicao de retorno errada ao retirar peca da estrutura de pecas capturadas.");
